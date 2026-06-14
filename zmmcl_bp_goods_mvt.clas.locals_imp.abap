@@ -608,6 +608,7 @@ CLASS lsc_save IMPLEMENTATION.
           CALL FUNCTION 'ZCAFM_INSERT_IF_LOG'
             STARTING NEW TASK 'ZAPI_LOG'
             EXPORTING
+              iv_log_id       = <header>-msgid
               iv_interface_id = 'MM-I-005'
               iv_status       = COND #( WHEN lv_failed = abap_true
                                         THEN zcacl_if_log=>c_status-error
