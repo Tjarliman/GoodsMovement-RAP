@@ -53,17 +53,21 @@ CLASS lhc_header IMPLEMENTATION.
 
     LOOP AT entities ASSIGNING FIELD-SYMBOL(<entity>).
 
-      TRY.
-          ls_header-msgid = cl_system_uuid=>create_uuid_x16_static( ).
-        CATCH cx_uuid_error.
-          APPEND VALUE #( %cid = <entity>-%cid ) TO failed-header.
-          APPEND VALUE #( %cid = <entity>-%cid
-                          %msg = new_message_with_text(
-                                   text     = 'UUID generation failed'
-                                   severity = if_abap_behv_message=>severity-error )
-                        ) TO reported-header.
-          CONTINUE.
-      ENDTRY.
+      IF <entity>-MessageID IS NOT INITIAL.
+        ls_header-msgid = <entity>-MessageID.
+      ELSE.
+        TRY.
+            ls_header-msgid = cl_system_uuid=>create_uuid_x16_static( ).
+          CATCH cx_uuid_error.
+            APPEND VALUE #( %cid = <entity>-%cid ) TO failed-header.
+            APPEND VALUE #( %cid = <entity>-%cid
+                            %msg = new_message_with_text(
+                                     text     = 'UUID generation failed'
+                                     severity = if_abap_behv_message=>severity-error )
+                          ) TO reported-header.
+            CONTINUE.
+        ENDTRY.
+      ENDIF.
 
       ls_header-partner       = <entity>-PartnerName.
       ls_header-partner_msgid = <entity>-PartnerMessageID.
