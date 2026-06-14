@@ -1,0 +1,39 @@
+{
+  "PartnerName": "AS400",
+  "PartnerMessageID": "MBGMCR",
+  "GoodsMovementCode": "03",
+  "PostingDate": "2026-04-15",
+  "DocumentDate": "2026-04-15",
+  "ReferenceDocument": "JO12345678",
+  "HeaderText": "Goods Issue of MF",
+  "_Items": [
+    {
+      "Item": "0001",
+      "Material": "COMPONENT01",
+      "Plant": "GM01",
+      "StorageLocation": "IP01",
+      "MovementType": "961",
+      "StockType": "",
+      "Quantity": 10,
+      "UOM": "PC",
+      "ReservationNumber": "1234567890",
+      "ReservationItemNo": "0001",
+      "MaterialDocumentItem": "",
+      "_Serials": []
+    },
+    {
+      "Item": "0002",
+      "Material": "COMPONENT02",
+      "Plant": "GM01",
+      "StorageLocation": "IP01",
+      "MovementType": "961",
+      "StockType": "",
+      "Quantity": 20,
+      "UOM": "PC",
+      "ReservationNumber": "1234567890",
+      "ReservationItemNo": "0002",
+      "MaterialDocumentItem": "",
+      "_Serials": []
+    }
+  ]
+}

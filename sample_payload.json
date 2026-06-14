@@ -1,0 +1,30 @@
+{
+  "PartnerName": "AS400",
+  "PartnerMessageID": "MBGMCR",
+  "GoodsMovementCode": "05",
+  "PostingDate": "2026-04-15",
+  "DocumentDate": "2026-04-15",
+  "ReferenceDocument": "JO12345678",
+  "HeaderText": "Goods Receipt of MF",
+  "_Items": [
+    {
+      "Item": "0001",
+      "Material": "FINISHEDGOOD01",
+      "Plant": "GM01",
+      "StorageLocation": "IP01",
+      "MovementType": "901",
+      "StockType": "2",
+      "Quantity": 1,
+      "UOM": "UN",
+      "ReservationNumber": "",
+      "ReservationItemNo": "",
+      "MaterialDocumentItem": "0001",
+      "_Serials": [
+        {
+          "SerialNumber": "ENGINE001",
+          "UniqueIdentifier": "FRAME001"
+        }
+      ]
+    }
+  ]
+}
