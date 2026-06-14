@@ -22,7 +22,7 @@ authorization master ( instance )
 {
   create;
 
-  field ( readonly ) MaterialDocument, MaterialDocumentYear,
+  field ( readonly ) MessageID, MaterialDocument, MaterialDocumentYear,
                      CreatedBy, CreatedAt;
 
   mapping for zmmt_gmvt_h corresponding

@@ -53,21 +53,17 @@ CLASS lhc_header IMPLEMENTATION.
 
     LOOP AT entities ASSIGNING FIELD-SYMBOL(<entity>).
 
-      IF <entity>-MessageID IS NOT INITIAL.
-        ls_header-msgid = <entity>-MessageID.
-      ELSE.
-        TRY.
-            ls_header-msgid = cl_system_uuid=>create_uuid_c32_static( ).
-          CATCH cx_uuid_error.
-            APPEND VALUE #( %cid = <entity>-%cid ) TO failed-header.
-            APPEND VALUE #( %cid = <entity>-%cid
-                            %msg = new_message_with_text(
-                                     text     = 'UUID generation failed'
-                                     severity = if_abap_behv_message=>severity-error )
-                          ) TO reported-header.
-            CONTINUE.
-        ENDTRY.
-      ENDIF.
+      TRY.
+          ls_header-msgid = cl_system_uuid=>create_uuid_c32_static( ).
+        CATCH cx_uuid_error.
+          APPEND VALUE #( %cid = <entity>-%cid ) TO failed-header.
+          APPEND VALUE #( %cid = <entity>-%cid
+                          %msg = new_message_with_text(
+                                   text     = 'UUID generation failed'
+                                   severity = if_abap_behv_message=>severity-error )
+                        ) TO reported-header.
+          CONTINUE.
+      ENDTRY.
 
       ls_header-partner       = <entity>-PartnerName.
       ls_header-partner_msgid = <entity>-PartnerMessageID.
@@ -96,10 +92,10 @@ CLASS lhc_header IMPLEMENTATION.
 
         CALL FUNCTION 'CONVERSION_EXIT_CUNIT_INPUT'
           EXPORTING
-            input    = <item>-UOM
-            language = sy-langu
+            input          = <item>-uom
+            language       = sy-langu
           IMPORTING
-            output   = lv_uom_int
+            output         = lv_uom_int
           EXCEPTIONS
             unit_not_found = 1
             OTHERS         = 2.
@@ -107,7 +103,7 @@ CLASS lhc_header IMPLEMENTATION.
           APPEND VALUE #( %cid = <item>-%cid ) TO failed-item.
           APPEND VALUE #( %cid = <item>-%cid
                           %msg = new_message_with_text(
-                                   text     = |Unit of measure '{ <item>-UOM }' not found|
+                                   text     = |Unit of measure '{ <item>-uom }' not found|
                                    severity = if_abap_behv_message=>severity-error )
                         ) TO reported-item.
           CONTINUE.
@@ -180,7 +176,7 @@ CLASS lhc_header IMPLEMENTATION.
             MovementType         = <buf>-move_type
             StockType            = <buf>-stck_type
             Quantity             = <buf>-entry_qnt
-            UOM                  = <buf>-entry_uom
+            uom                  = <buf>-entry_uom
             ReservationNumber    = <buf>-reserv_no
             ReservationItemNo    = <buf>-res_item
             MaterialDocumentItem = <buf>-matdoc_itm
@@ -268,7 +264,7 @@ CLASS lhc_item IMPLEMENTATION.
           MovementType         = <buf>-move_type
           StockType            = <buf>-stck_type
           Quantity             = <buf>-entry_qnt
-          UOM                  = <buf>-entry_uom
+          uom                  = <buf>-entry_uom
           ReservationNumber    = <buf>-reserv_no
           ReservationItemNo    = <buf>-res_item
           MaterialDocumentItem = <buf>-matdoc_itm
@@ -392,7 +388,7 @@ CLASS lhc_serial IMPLEMENTATION.
             MovementType         = <buf>-move_type
             StockType            = <buf>-stck_type
             Quantity             = <buf>-entry_qnt
-            UOM                  = <buf>-entry_uom
+            uom                  = <buf>-entry_uom
             ReservationNumber    = <buf>-reserv_no
             ReservationItemNo    = <buf>-res_item
             MaterialDocumentItem = <buf>-matdoc_itm
@@ -478,15 +474,14 @@ CLASS lsc_save IMPLEMENTATION.
 
       ENDLOOP.
 
-      CALL FUNCTION 'ZMMFM_GOODSMVT_CREATE'
-        DESTINATION 'NONE'
+      CALL FUNCTION 'ZMMFM_GOODSMVT_CREATE' DESTINATION 'NONE'
         EXPORTING
-          goodsmvt_header  = ls_gm_header
-          goodsmvt_code    = ls_gm_code
-          commit_work      = abap_true
+          goodsmvt_header       = ls_gm_header
+          goodsmvt_code         = ls_gm_code
+          commit_work           = abap_true
         IMPORTING
-          materialdocument = lv_matdoc
-          matdocumentyear  = lv_matyear
+          materialdocument      = lv_matdoc
+          matdocumentyear       = lv_matyear
         TABLES
           goodsmvt_item         = lt_gm_items
           goodsmvt_serialnumber = lt_gm_serial
@@ -548,21 +543,21 @@ CLASS lsc_save IMPLEMENTATION.
                MovementType         TYPE char3,
                StockType            TYPE char1,
                Quantity             TYPE erfmg,
-               UOM                  TYPE erfme,
+               uom                  TYPE erfme,
                ReservationNumber    TYPE char10,
                ReservationItemNo    TYPE numc4,
                MaterialDocumentItem TYPE numc4,
                _Serials             TYPE STANDARD TABLE OF ty_log_ser WITH EMPTY KEY,
              END OF ty_log_itm,
              BEGIN OF ty_log_hdr,
-               PartnerName          TYPE char50,
-               PartnerMessageID     TYPE char50,
-               GoodsMovementCode    TYPE char2,
-               PostingDate          TYPE dats,
-               DocumentDate         TYPE dats,
-               ReferenceDocument    TYPE char16,
-               HeaderText           TYPE char25,
-               _Items               TYPE STANDARD TABLE OF ty_log_itm WITH EMPTY KEY,
+               PartnerName       TYPE char50,
+               PartnerMessageID  TYPE char50,
+               GoodsMovementCode TYPE char2,
+               PostingDate       TYPE dats,
+               DocumentDate      TYPE dats,
+               ReferenceDocument TYPE char16,
+               HeaderText        TYPE char25,
+               _Items            TYPE STANDARD TABLE OF ty_log_itm WITH EMPTY KEY,
              END OF ty_log_hdr.
 
       DATA ls_log     TYPE ty_log_hdr.
@@ -586,7 +581,7 @@ CLASS lsc_save IMPLEMENTATION.
         ls_log_itm-MovementType         = ls_buf_itm-move_type.
         ls_log_itm-StockType            = ls_buf_itm-stck_type.
         ls_log_itm-Quantity             = ls_buf_itm-entry_qnt.
-        ls_log_itm-UOM                  = ls_buf_itm-entry_uom.
+        ls_log_itm-uom                  = ls_buf_itm-entry_uom.
         ls_log_itm-ReservationNumber    = ls_buf_itm-reserv_no.
         ls_log_itm-ReservationItemNo    = ls_buf_itm-res_item.
         ls_log_itm-MaterialDocumentItem = ls_buf_itm-matdoc_itm.
@@ -612,6 +607,7 @@ CLASS lsc_save IMPLEMENTATION.
           CALL FUNCTION 'ZCAFM_INSERT_IF_LOG'
             STARTING NEW TASK 'ZAPI_LOG'
             EXPORTING
+              iv_external_id  = <header>-msgid
               iv_interface_id = 'MM-I-005'
               iv_status       = COND #( WHEN lv_failed = abap_true
                                         THEN zcacl_if_log=>c_status-error
