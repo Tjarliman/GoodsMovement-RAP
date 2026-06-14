@@ -17,7 +17,7 @@
 CLASS lcl_buffer DEFINITION.
   PUBLIC SECTION.
     TYPES: BEGIN OF ty_bapi_result,
-             msgid        TYPE sysuuid_x16,
+             msgid        TYPE zmmt_gmvt_h-msgid,
              mat_doc      TYPE bapi2017_gm_head_ret-mat_doc,
              mat_doc_year TYPE bapi2017_gm_head_ret-doc_year,
            END OF ty_bapi_result.

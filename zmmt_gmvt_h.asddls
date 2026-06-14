@@ -22,7 +22,7 @@
 define table zmmt_gmvt_h {
 
   key client     : abap.clnt not null;
-  key msgid      : sysuuid_x16 not null;
+  key msgid      : abap.char(32) not null;
   partner        : abap.char(50);
   partner_msgid  : abap.char(50);
   gm_code        : abap.char(2);

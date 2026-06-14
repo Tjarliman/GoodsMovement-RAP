@@ -57,7 +57,7 @@ CLASS lhc_header IMPLEMENTATION.
         ls_header-msgid = <entity>-MessageID.
       ELSE.
         TRY.
-            ls_header-msgid = cl_system_uuid=>create_uuid_x16_static( ).
+            ls_header-msgid = cl_system_uuid=>create_uuid_c32_static( ).
           CATCH cx_uuid_error.
             APPEND VALUE #( %cid = <entity>-%cid ) TO failed-header.
             APPEND VALUE #( %cid = <entity>-%cid
@@ -612,7 +612,6 @@ CLASS lsc_save IMPLEMENTATION.
           CALL FUNCTION 'ZCAFM_INSERT_IF_LOG'
             STARTING NEW TASK 'ZAPI_LOG'
             EXPORTING
-              iv_log_id       = <header>-msgid
               iv_interface_id = 'MM-I-005'
               iv_status       = COND #( WHEN lv_failed = abap_true
                                         THEN zcacl_if_log=>c_status-error

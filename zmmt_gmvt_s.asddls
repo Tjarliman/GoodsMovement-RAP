@@ -22,7 +22,7 @@
 define table zmmt_gmvt_s {
 
   key client     : abap.clnt not null;
-  key msgid      : sysuuid_x16 not null;
+  key msgid      : abap.char(32) not null;
   key item_no    : abap.numc(4) not null;
   key serial_seq : abap.numc(4) not null;
   serialno       : abap.char(18);
